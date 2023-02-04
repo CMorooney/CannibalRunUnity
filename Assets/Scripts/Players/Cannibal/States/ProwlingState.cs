@@ -11,7 +11,15 @@ public class ProwlingState : BasePlayerMovementState
             cast.collider != null &&
             cast.collider.CompareTag("victim"))
         {
-            Cannibal.SetVictim(cast.collider.gameObject.GetComponent<VictimScript>());
+            var victim = cast.collider.gameObject.GetComponent<VictimScript>();
+            if (victim.IsAtNavDestination())
+            {
+                Cannibal.SetVictim(victim);
+            }
+            else
+            {
+                victim.Alert(Cannibal.transform);
+            }
         }
         else
         {
