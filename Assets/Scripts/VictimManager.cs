@@ -20,13 +20,11 @@ public class VictimManager : MonoBehaviour
         int successCount = 0;
         while (successCount < _startingCount)
         {
-            Debug.Log($"{successCount}");
             var randomOrigin = new Vector3() + Random.insideUnitSphere * 20;
             if (SamplePosition(randomOrigin, out var hit, 1, AllAreas))
             {
                 successCount++;
                 Instantiate(VictimPrefab, hit.position.WithZ(0), Quaternion.identity);
-                Debug.Log("Spawn");
             }
         }
     }
