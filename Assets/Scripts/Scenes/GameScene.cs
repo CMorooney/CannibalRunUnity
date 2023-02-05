@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Game : MonoBehaviour
+public class GameScene : MonoBehaviour
 {
     public GameObject Cannibal;
     public GameObject HUD;
