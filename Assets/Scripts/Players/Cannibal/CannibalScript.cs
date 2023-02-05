@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 using FSM;
 
 public delegate void HealthChanged(float newHealth);
@@ -34,6 +35,10 @@ public class CannibalScript : MonoBehaviour
 
     public void Awake()
     {
+        var navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.updateRotation = false;
+        navMeshAgent.updateUpAxis = false;
+
         _stateMachine = new CRStateMachine();
         _stateMachine.AddState(nameof(ProwlingState), new ProwlingState(this));
         _stateMachine.AddState(nameof(PickFromVictimState), new PickFromVictimState(this));

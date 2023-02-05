@@ -9,17 +9,18 @@ using FSM;
 using Random = UnityEngine.Random;
 using static UnityEngine.AI.NavMesh;
 
-public delegate void RequestNewWanderingLocation();
-
 public class VictimScript : MonoBehaviour
 {
-    public RequestNewWanderingLocation RequestNewWanderingLocation;
+    private LineOfSight _lineOfSightScript;
 
     private NavMeshAgent _navMeshAgent;
     private Transform _alertSource;
+
     private readonly List<BodyPart> _bodyParts = BodyParts.All();
+
     private const float _walkingSpeed = 3.5f;
     private const float _runningSpeed = 7f;
+
     private float _health = 1f;// let's say 0 - 1
 
     private readonly CRStateMachine _stateMachine = new CRStateMachine();
@@ -29,6 +30,9 @@ public class VictimScript : MonoBehaviour
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.updateRotation = false;
         _navMeshAgent.updateUpAxis = false;
+
+        _lineOfSightScript = GetComponentInChildren<LineOfSight>();
+        _lineOfSightScript.Alert += Alert;
 
         _stateMachine.AddState(nameof(WanderingState), new WanderingState(this));
         _stateMachine.AddState(nameof(WaitingState), new WaitingState(this));
@@ -51,9 +55,25 @@ public class VictimScript : MonoBehaviour
                                                    t => _alertSource == null));
     }
 
-    private void Start() => _stateMachine.Init();
+    private void Start()
+    {
+        _lineOfSightScript.Alert += Alert;
+        _stateMachine.Init();
+    }
 
-    private void Update() => _stateMachine.OnLogic();
+    private void OnDestroy()
+    {
+        _lineOfSightScript.Alert -= Alert;
+    }
+
+    private void Update()
+    {
+        if (_navMeshAgent.remainingDistance > 2)
+        {
+            _lineOfSightScript.SightVector = _navMeshAgent.velocity;
+        }
+        _stateMachine.OnLogic();
+    }
 
     private void SetRandomDestination(int rangeMin, int rangeMax, bool allowWait)
     {
@@ -112,6 +132,8 @@ public class VictimScript : MonoBehaviour
     public void Wait() => StartCoroutine(WanderAfter(Random.Range(5, 15)));
 
     public void Alert(Transform source) => _alertSource = source;
+
+    public bool IsAlerted => _alertSource != null;
 
     public float DistanceFromAlert => Vector2.Distance(_alertSource.position, transform.position);
 

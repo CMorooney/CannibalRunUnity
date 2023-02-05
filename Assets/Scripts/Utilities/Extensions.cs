@@ -8,7 +8,7 @@ public static class Extensions
     {
         foreach(var t in tags)
         {
-            if(collider.CompareTag(t))
+            if(collider.tag.Contains(t))
             {
                 return true;
             }
@@ -17,17 +17,17 @@ public static class Extensions
         return false;
     }
 
-    public static bool CompareTagsAND(this Collider2D collider, params string[] tags)
+    public static bool CompareTagsOR(this GameObject go, params string[] tags)
     {
         foreach(var t in tags)
         {
-            if(collider.CompareTag(t) == false)
+            if(go.tag.Contains(t))
             {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 }
 

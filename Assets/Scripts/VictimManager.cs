@@ -9,20 +9,17 @@ public class VictimManager : MonoBehaviour
 {
     public GameObject VictimPrefab;
 
-    private const int _startingCount = 10;
+    private const int _startingCount = 150;
 
     private readonly List<VictimScript> _activeVictims = new List<VictimScript>();
 
-    private void Start()
-    {
-        SpawnInitial();
-    }
+    private void Start() => SpawnInitial();
 
     private void SpawnInitial()
     {
         int successCount = 0;
         int failCount = 0;
-        while (successCount < _startingCount && failCount < 100)
+        while (successCount < _startingCount && failCount < _startingCount * 20)
         {
             var randomOrigin = new Vector3() + Random.insideUnitSphere * 20;
 

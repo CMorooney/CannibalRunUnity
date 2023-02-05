@@ -8,6 +8,7 @@ public class WaitingState : BaseVictimState
 
     public override void OnEnter()
     {
+        Victim.tag = "victim";
         Victim.GetComponent<SpriteRenderer>().color = Color.yellow;
         Victim.Wait();
     }

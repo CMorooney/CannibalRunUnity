@@ -9,7 +9,7 @@ public class ProwlingState : BasePlayerMovementState
     {
         if (Input.GetKeyDown(KeyCode.Space) &&
             cast.collider != null &&
-            cast.collider.CompareTag("victim"))
+            cast.collider.tag.Contains("victim"))
         {
             var victim = cast.collider.gameObject.GetComponent<VictimScript>();
             if (victim.IsAtNavDestination())

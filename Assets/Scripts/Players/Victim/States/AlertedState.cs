@@ -8,6 +8,7 @@ public class AlertedState : BaseVictimState
 
     public override void OnEnter()
     {
+        Victim.tag = "alertedvictim";
         Victim.GetComponent<SpriteRenderer>().color = Color.red;
         Victim.Run();
     }
