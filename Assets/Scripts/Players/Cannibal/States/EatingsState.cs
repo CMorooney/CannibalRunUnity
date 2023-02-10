@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class EatingState : BasePlayerMovementState
 {
-    protected override float SpeedModifier => IsGobbling() ? 1 : 0.5f;
+    protected override float SpeedModifier => IsGobbling() ? 1 : 0.2f;
 
     private long _lastInputTime = 0;
 
