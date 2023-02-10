@@ -160,7 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2723b5c64194987b533011407de29f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LineOfSightChild: {fileID: 6009542889563926491}
 --- !u!1 &6009542889563926491
 GameObject:
   m_ObjectHideFlags: 0
@@ -172,7 +171,7 @@ GameObject:
   - component: {fileID: 1072054097814619258}
   - component: {fileID: 5998343765713068780}
   - component: {fileID: 2689364178697973355}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: LineOfSight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,3 +221,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96bc7246410f543ff869bacfc1ae3f85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SightVector: {x: 0, y: 0, z: 0}

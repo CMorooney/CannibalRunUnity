@@ -15,17 +15,14 @@ public class BasePlayerMovementState : BasePlayerState
         var input = InputManager.CurrentDirectionalInput();
 
         var cast = Physics2D.BoxCast(origin: Cannibal.transform.position,
-                                 size: new Vector2(1.2f, 1.2f),
+                                 size: new Vector2(0.8f, 0.8f),
                                  angle: 0,
                                  direction: input,
                                  distance: Cannibal.CollisionDistanceThreshold,
                                  layerMask: LayerMask.GetMask("Obstacle"));
 
-        if (!IsBlocked(cast))
-        {
-            Move(input, cast);
-            SetAnimation(input);
-        }
+        Move(input, cast);
+        SetAnimation(input);
     }
 
     private bool IsBlocked(RaycastHit2D cast) => cast.collider != null &&
@@ -34,29 +31,30 @@ public class BasePlayerMovementState : BasePlayerState
 
     protected virtual void Move(Vector2 input, RaycastHit2D cast)
     {
-    
+        if (!IsBlocked(cast))
+        {
+            var adjustedSpeed = Cannibal.Speed * SpeedModifier;
 
-        var adjustedSpeed = Cannibal.Speed * SpeedModifier;
+            _velocity.x = input.x != 0 ?
+                            Mathf.MoveTowards(_velocity.x,
+                                              input.x * adjustedSpeed,
+                                              Cannibal.Acceleration * Time.deltaTime)
+                            :
+                            Mathf.MoveTowards(_velocity.x,
+                                              0,
+                                              Cannibal.Deceleration * Time.deltaTime);
 
-        _velocity.x = input.x != 0 ?
-                        Mathf.MoveTowards(_velocity.x,
-                                          input.x * adjustedSpeed,
-                                          Cannibal.Acceleration * Time.deltaTime)
-                        :
-                        Mathf.MoveTowards(_velocity.x,
-                                          0,
-                                          Cannibal.Deceleration * Time.deltaTime);
+            _velocity.y = input.y != 0 ?
+                            Mathf.MoveTowards(_velocity.y,
+                                              input.y * adjustedSpeed,
+                                              Cannibal.Acceleration * Time.deltaTime)
+                            :
+                            Mathf.MoveTowards(_velocity.y,
+                                              0,
+                                              Cannibal.Deceleration * Time.deltaTime);
 
-        _velocity.y = input.y != 0 ?
-                        Mathf.MoveTowards(_velocity.y,
-                                          input.y * adjustedSpeed,
-                                          Cannibal.Acceleration * Time.deltaTime)
-                        :
-                        Mathf.MoveTowards(_velocity.y,
-                                          0,
-                                          Cannibal.Deceleration * Time.deltaTime);
-
-        Cannibal.transform.Translate(_velocity * Time.deltaTime);
+            Cannibal.transform.Translate(_velocity * Time.deltaTime);
+        }
     }
 
     private void SetAnimation(Vector2 input)
@@ -68,8 +66,6 @@ public class BasePlayerMovementState : BasePlayerState
             { y: > 0 } => "CannibalRunBack",
             _ => "CannibalIdle"
         };
-
-        Debug.Log($"({input.x}, {input.y})");
 
         Cannibal.SetAnimation(animName, input.x < 0);
     }
