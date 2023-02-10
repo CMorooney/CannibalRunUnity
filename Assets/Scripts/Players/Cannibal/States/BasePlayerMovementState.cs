@@ -4,6 +4,8 @@ public class BasePlayerMovementState : BasePlayerState
 {
     private Vector2 _velocity = new Vector2(0, 0);
 
+    private Vector2 _facing = Vector2.down;
+
     protected virtual float SpeedModifier => 1.0f;
 
     public BasePlayerMovementState(CannibalScript cannibal) : base(cannibal) { }
@@ -31,6 +33,18 @@ public class BasePlayerMovementState : BasePlayerState
 
     protected virtual void Move(Vector2 input, RaycastHit2D cast)
     {
+        if(input.x != 0 || input.y != 0)
+        {
+            _facing = input switch
+            {
+                { x: > 0 } => Vector2.right,
+                { x: < 0 } => Vector2.left,
+                { y: > 0 } => Vector2.up,
+                { y: < 0} => Vector2.down,
+                _ => Vector2.down
+            };
+        }
+
         if (!IsBlocked(cast))
         {
             var adjustedSpeed = Cannibal.Speed * SpeedModifier;
@@ -59,15 +73,17 @@ public class BasePlayerMovementState : BasePlayerState
 
     private void SetAnimation(Vector2 input)
     {
-        var animName = input switch
+        var idle = input.x == 0 && input.y == 0;
+        var r = idle ? "Idle" : "Run";
+
+        var animName = _facing switch
         {
-            Vector2 i when i.x != 0 => "CannibalRunSide",
-            { y: < 0 } => "CannibalRunForward",
-            { y: > 0 } => "CannibalRunBack",
-            _ => "CannibalIdle"
+            Vector2 v when v == Vector2.up => $"Cannibal{r}Back",
+            Vector2 v when v == Vector2.down => $"Cannibal{r}Front",
+            _ => $"Cannibal{r}Side"
         };
 
-        Cannibal.SetAnimation(animName, input.x < 0);
+        Cannibal.SetAnimation(animName, _facing == Vector2.left);
     }
 }
 
