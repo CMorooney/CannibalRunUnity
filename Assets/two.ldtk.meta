@@ -19,16 +19,28 @@ ScriptedImporter:
   _createBackgroundColor: 0
   _createLevelBoundsTrigger: 0
   _intGridValues:
+  - _key: Colliders_1
+    _asset: {fileID: 11400000, guid: 1a6a72c36d1254e09944a17eb990907e, type: 2}
+  - _key: Colliders_2
+    _asset: {fileID: 11400000, guid: 1a6a72c36d1254e09944a17eb990907e, type: 2}
+  - _key: Colliders_3
+    _asset: {fileID: 11400000, guid: 1a6a72c36d1254e09944a17eb990907e, type: 2}
+  - _key: Colliders_4
+    _asset: {fileID: 11400000, guid: 1a6a72c36d1254e09944a17eb990907e, type: 2}
+  - _key: Colliders_5
+    _asset: {fileID: 11400000, guid: 1a6a72c36d1254e09944a17eb990907e, type: 2}
+  - _key: Colliders_6
+    _asset: {fileID: 11400000, guid: 1a6a72c36d1254e09944a17eb990907e, type: 2}
   - _key: Walkable_1
-    _asset: {instanceID: 0}
+    _asset: {fileID: 11400000, guid: 8349654e03ce84fb8b32a9bb515b9fd7, type: 2}
   - _key: Walkable_2
     _asset: {instanceID: 0}
   - _key: Walkable_3
-    _asset: {instanceID: 0}
+    _asset: {fileID: 11400000, guid: 8349654e03ce84fb8b32a9bb515b9fd7, type: 2}
   - _key: Walkable_4
+    _asset: {fileID: 11400000, guid: 8349654e03ce84fb8b32a9bb515b9fd7, type: 2}
+  - _key: Drivable_1
     _asset: {instanceID: 0}
-  - _key: Walkable_5
-    _asset: {fileID: 11400000, guid: 1a6a72c36d1254e09944a17eb990907e, type: 2}
   _entities: []
   _enumGenerate: 0
   _enumPath: 

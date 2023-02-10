@@ -21,8 +21,8 @@ public class LineOfSight : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        // we don't care about walls
-        if(!collision.gameObject.CompareTag("block player"))
+        // be careful to only track the things we care about
+        if(collision.gameObject.CompareTagsOR("cannibal", "victim"))
         {
             _nearbyFolk.Add(collision.gameObject.GetInstanceID(), collision.gameObject);
         }

@@ -9,7 +9,7 @@ public class VictimManager : MonoBehaviour
 {
     public GameObject VictimPrefab;
 
-    private const int _startingCount = 150;
+    private const int _startingCount = 20;
 
     private readonly List<VictimScript> _activeVictims = new List<VictimScript>();
 

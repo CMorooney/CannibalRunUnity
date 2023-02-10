@@ -15,22 +15,26 @@ public class BasePlayerMovementState : BasePlayerState
         var input = InputManager.CurrentDirectionalInput();
 
         var cast = Physics2D.BoxCast(origin: Cannibal.transform.position,
-                                 size: new Vector2(0.8f, 0.8f),
+                                 size: new Vector2(1.2f, 1.2f),
                                  angle: 0,
                                  direction: input,
                                  distance: Cannibal.CollisionDistanceThreshold,
                                  layerMask: LayerMask.GetMask("Obstacle"));
 
-        Move(input, cast);
+        if (!IsBlocked(cast))
+        {
+            Move(input, cast);
+            SetAnimation(input);
+        }
     }
+
+    private bool IsBlocked(RaycastHit2D cast) => cast.collider != null &&
+                                                 cast.collider.CompareTagsOR("block player",
+                                                                             "victim");
 
     protected virtual void Move(Vector2 input, RaycastHit2D cast)
     {
-        if (cast.collider != null &&
-            cast.collider.CompareTagsOR("block player", "victim"))
-        {
-            return;
-        }
+    
 
         var adjustedSpeed = Cannibal.Speed * SpeedModifier;
 
@@ -53,6 +57,21 @@ public class BasePlayerMovementState : BasePlayerState
                                           Cannibal.Deceleration * Time.deltaTime);
 
         Cannibal.transform.Translate(_velocity * Time.deltaTime);
+    }
+
+    private void SetAnimation(Vector2 input)
+    {
+        var animName = input switch
+        {
+            Vector2 i when i.x != 0 => "CannibalRunSide",
+            { y: < 0 } => "CannibalRunForward",
+            { y: > 0 } => "CannibalRunBack",
+            _ => "CannibalIdle"
+        };
+
+        Debug.Log($"({input.x}, {input.y})");
+
+        Cannibal.SetAnimation(animName, input.x < 0);
     }
 }
 

@@ -23,6 +23,8 @@ public class GameScene : MonoBehaviour
         _cannibalScript.HealthChanged += PlayerHealthChanged;
         _cannibalScript.BiteTaken += PlayerBiteTaken;
         _cannibalScript.InventoryChanged += PlayerInventoryChanged;
+
+        _hudScript.NewGameRequested += NewGameRequested;
     }
     
     private void OnDestroy()
@@ -30,6 +32,13 @@ public class GameScene : MonoBehaviour
         _cannibalScript.HealthChanged -= PlayerHealthChanged;
         _cannibalScript.BiteTaken -= PlayerBiteTaken;
         _cannibalScript.InventoryChanged -= PlayerInventoryChanged;
+
+        _hudScript.NewGameRequested -= NewGameRequested;
+    }
+
+    private void NewGameRequested()
+    {
+        //TODO;
     }
 
     private void PlayerHealthChanged(float newPlayerHealthPercent) =>

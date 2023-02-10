@@ -28,6 +28,8 @@ public class CannibalScript : MonoBehaviour
     private VictimScript _currentVictim;
     private BodyPart _currentBodyPartEating;
     private ActionMenuScript _actionMenuScript;
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
  
     private CRStateMachine _stateMachine;
 
@@ -35,10 +37,6 @@ public class CannibalScript : MonoBehaviour
 
     public void Awake()
     {
-        var navMeshAgent = GetComponent<NavMeshAgent>();
-        navMeshAgent.updateRotation = false;
-        navMeshAgent.updateUpAxis = false;
-
         _stateMachine = new CRStateMachine();
         _stateMachine.AddState(nameof(ProwlingState), new ProwlingState(this));
         _stateMachine.AddState(nameof(PickFromVictimState), new PickFromVictimState(this));
@@ -64,6 +62,9 @@ public class CannibalScript : MonoBehaviour
 
         _actionMenuScript = GetComponentInChildren<ActionMenuScript>();
         _actionMenuScript.ItemSelected += MenuItemSelected;
+
+        _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     public void Start() => _stateMachine.Init();
@@ -125,6 +126,12 @@ public class CannibalScript : MonoBehaviour
                     Constants.Player.MaxHealth);
 
         HealthChanged?.Invoke(_health);
+    }
+
+    public void SetAnimation(string name, bool flipX)
+    {
+        _spriteRenderer.flipX = flipX;
+        _animator.Play(name);
     }
 }
 
