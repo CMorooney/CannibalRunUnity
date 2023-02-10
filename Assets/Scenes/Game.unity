@@ -9604,7 +9604,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!4 &1829655738
@@ -9826,9 +9826,9 @@ MonoBehaviour:
   PlayerHealthImage: {fileID: 148951614}
   OrganHealthImage: {fileID: 1474672197}
   OrganNameLabel: {fileID: 1601195019}
-  GameOverPanel: {fileID: 0}
-  PlayAgainButton: {fileID: 0}
-  ExitGameButton: {fileID: 0}
+  GameOverPanel: {fileID: 1371846922}
+  PlayAgainButton: {fileID: 1654859982}
+  ExitGameButton: {fileID: 1279188895}
 --- !u!1 &1873784957
 GameObject:
   m_ObjectHideFlags: 0
