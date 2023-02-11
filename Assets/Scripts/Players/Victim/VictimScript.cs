@@ -8,12 +8,15 @@ using UnityEngine.AI;
 using FSM;
 using Random = UnityEngine.Random;
 using static UnityEngine.AI.NavMesh;
+using UnityEngine.Windows;
 
 public class VictimScript : MonoBehaviour
 {
     private LineOfSight _lineOfSightScript;
 
     private NavMeshAgent _navMeshAgent;
+    private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
     private Transform _alertSource;
 
     private readonly List<BodyPart> _bodyParts = BodyParts.All();
@@ -27,6 +30,9 @@ public class VictimScript : MonoBehaviour
 
     private void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
+
         _navMeshAgent = GetComponent<NavMeshAgent>();
         _navMeshAgent.updateRotation = false;
         _navMeshAgent.updateUpAxis = false;
@@ -73,6 +79,42 @@ public class VictimScript : MonoBehaviour
             _lineOfSightScript.SightVector = _navMeshAgent.velocity;
         }
         _stateMachine.OnLogic();
+    }
+
+    private void LateUpdate()
+    {
+        var velocity = _navMeshAgent.velocity;
+        if (velocity.x != 0 && velocity.y != 0)
+        {
+            _facing = velocity switch
+            {
+                { x: > 0 } => Vector2.right,
+                { x: < 0 } => Vector2.left,
+                { y: > 0 } => Vector2.up,
+                { y: < 0 } => Vector2.down,
+                _ => Vector2.down
+            };
+        }
+
+        SetAnimation(velocity);
+    }
+
+    private Vector2 _facing;
+
+    private void SetAnimation(Vector2 direction)
+    {
+        var idle = direction.x == 0 && direction.y == 0;
+        var r = idle ? "Idle" : "Run";
+
+        var animName = _facing switch
+        {
+            Vector2 v when v == Vector2.up => $"Victim{r}Back",
+            Vector2 v when v == Vector2.down => $"Victim{r}Front",
+            _ => $"Victim{r}Side"
+        };
+
+        _animator.Play(animName);
+        _spriteRenderer.flipX = _facing == Vector2.left;
     }
 
     private void SetRandomDestination(int rangeMin, int rangeMax, bool allowWait)

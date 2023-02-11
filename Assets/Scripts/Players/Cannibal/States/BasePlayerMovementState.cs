@@ -53,19 +53,13 @@ public class BasePlayerMovementState : BasePlayerState
                             Mathf.MoveTowards(_velocity.x,
                                               input.x * adjustedSpeed,
                                               Cannibal.Acceleration * Time.deltaTime)
-                            :
-                            Mathf.MoveTowards(_velocity.x,
-                                              0,
-                                              Cannibal.Deceleration * Time.deltaTime);
+                            : 0;
 
             _velocity.y = input.y != 0 ?
                             Mathf.MoveTowards(_velocity.y,
                                               input.y * adjustedSpeed,
                                               Cannibal.Acceleration * Time.deltaTime)
-                            :
-                            Mathf.MoveTowards(_velocity.y,
-                                              0,
-                                              Cannibal.Deceleration * Time.deltaTime);
+                            : 0;
 
             Cannibal.transform.Translate(_velocity * Time.deltaTime);
         }

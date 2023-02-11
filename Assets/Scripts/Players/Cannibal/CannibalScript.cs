@@ -4,7 +4,6 @@ using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.AI;
 using FSM;
 
 public delegate void HealthChanged(float newHealth);
