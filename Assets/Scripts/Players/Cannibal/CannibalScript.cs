@@ -1,9 +1,6 @@
 using System;
-using System.Collections;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using FSM;
 
 public delegate void HealthChanged(float newHealth);
@@ -18,6 +15,7 @@ public class CannibalScript : MonoBehaviour
     public float CollisionDistanceThreshold = 0.1f;
     public float HealthPerTurn = -.0001f;
     public float BiteAmount = 0.02f;
+    public GameObject BiteAnimationObject;
 
     public event HealthChanged HealthChanged;
     public event BiteTaken BiteTaken;
@@ -28,6 +26,8 @@ public class CannibalScript : MonoBehaviour
     private BodyPart _currentBodyPartEating;
     private ActionMenuScript _actionMenuScript;
     private Animator _animator;
+    private Animator _biteAnimator;
+    private SpriteRenderer _biteAnimatorRenderer;
     private SpriteRenderer _spriteRenderer;
  
     private CRStateMachine _stateMachine;
@@ -64,6 +64,8 @@ public class CannibalScript : MonoBehaviour
 
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _biteAnimator = BiteAnimationObject.GetComponent<Animator>();
+        _biteAnimatorRenderer = BiteAnimationObject.GetComponent<SpriteRenderer>();
     }
 
     public void Start() => _stateMachine.Init();
@@ -109,6 +111,9 @@ public class CannibalScript : MonoBehaviour
 
         BiteTaken?.Invoke(_currentBodyPartEating.Health / _currentBodyPartEating.MaxHealth);
 
+        var r = new System.Random();
+        _biteAnimator.Play($"BloodyBite{r.Next(1, 7)}");
+
         // just a little threshold to stop it from being a teeny teeny number the UI wont be able to display as "organ health"// just a little threshold to stop it from being a teeny teeny number the UI wont be able to display as "organ health"
         if(_currentBodyPartEating.Health <= 0.00001)
         {
@@ -129,6 +134,7 @@ public class CannibalScript : MonoBehaviour
 
     public void SetAnimation(string name, bool flipX)
     {
+        _biteAnimatorRenderer.sortingOrder = name.Contains("Back") ? 0 : 4;
         _spriteRenderer.flipX = flipX;
         _animator.Play(name);
     }

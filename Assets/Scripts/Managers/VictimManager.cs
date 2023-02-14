@@ -21,7 +21,7 @@ public class VictimManager : MonoBehaviour
         int failCount = 0;
         while (successCount < _startingCount && failCount < _startingCount * 20)
         {
-            var randomOrigin = new Vector3() + Random.insideUnitSphere * 20;
+            var randomOrigin = transform.position + Random.insideUnitSphere * 20;
 
             //TODO: AllAreas seems wrong but I get no hits otherwise (should be bitmask for "Walkable"?)
             if (SamplePosition(randomOrigin, out var hit, 1, AllAreas))
