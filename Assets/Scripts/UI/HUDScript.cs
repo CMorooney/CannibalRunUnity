@@ -18,6 +18,12 @@ public class HUDScript : MonoBehaviour
     public Button PlayAgainButton;
     public Button ExitGameButton;
 
+    private Vector3 _organHealthPosition;
+    private void Awake()
+    {
+        _organHealthPosition = OrganHealthImage.gameObject.transform.position;
+    }
+
     private void PlayAgainClicked()
     {
         NewGameRequested?.Invoke();
@@ -50,7 +56,24 @@ public class HUDScript : MonoBehaviour
         }
     }
 
-    public void UpdateOrganHealth(float percent) => OrganHealthImage.fillAmount = percent;
+    public void UpdateOrganHealth(float percent)
+    {
+        StartCoroutine(ShakeOrganHealth());
+        OrganHealthImage.fillAmount = percent;
+    }
+
+    private IEnumerator ShakeOrganHealth()
+    { 
+        for(int i = 0; i < 165; i++)
+        {
+            OrganHealthImage.gameObject.transform.position = (Random.insideUnitSphere * 6) + _organHealthPosition;
+            if(i == 164)
+            {
+                OrganHealthImage.gameObject.transform.position = _organHealthPosition;
+            }
+            yield return new WaitForEndOfFrame();
+        }
+    }
 
     public void UpdateOrgan(BodyPart bodyPart)
     { 
