@@ -19,9 +19,16 @@ public class AlertedState : BaseVictimState
         {
             Victim.Calm();
         }
-        else if(Victim.IsAtNavDestination())
+        else
         {
-            Victim.Run();
+            if(Victim.NearbyPolicePole != null)
+            {
+                Victim.CallThePolice();
+            }
+            else if (Victim.IsAtNavDestination())
+            {
+                Victim.Run();
+            }
         }
     }
 }

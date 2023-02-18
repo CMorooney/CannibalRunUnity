@@ -8,6 +8,7 @@ TagManager:
   - victim
   - cannibal
   - alertedvictim
+  - policepole
   layers:
   - Default
   - TransparentFX

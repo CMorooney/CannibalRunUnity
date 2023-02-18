@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,10 +20,13 @@ public class LineOfSight : MonoBehaviour
         SightVector = Random.insideUnitSphere.WithZ(0);
     }
 
+    public GameObject NearbyPolicePole =>
+        _nearbyFolk.Values.FirstOrDefault(f => f.CompareTag("policepole"));
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // be careful to only track the things we care about
-        if(collision.gameObject.CompareTagsOR("cannibal", "victim"))
+        if(collision.gameObject.CompareTagsOR("cannibal", "victim", "policepole"))
         {
             _nearbyFolk.Add(collision.gameObject.GetInstanceID(), collision.gameObject);
         }

@@ -8,6 +8,7 @@ using static UnityEngine.AI.NavMesh;
 public class VictimManager : MonoBehaviour
 {
     public GameObject VictimPrefab;
+    public GameObject PolicePrefab;
 
     private const int _startingCount = 20;
 
@@ -23,12 +24,15 @@ public class VictimManager : MonoBehaviour
         {
             var randomOrigin = transform.position + Random.insideUnitSphere * 20;
 
-            //TODO: AllAreas seems wrong but I get no hits otherwise (should be bitmask for "Walkable"?)
-            if (SamplePosition(randomOrigin, out var hit, 1, AllAreas))
+            if (SamplePosition(randomOrigin, out var hit, 1, 1))
             {
                 var obj = Instantiate(VictimPrefab, hit.position.WithZ(0), Quaternion.identity);
                 successCount++;
-                _activeVictims.Add(obj.GetComponent<VictimScript>());
+
+                var victimScript = obj.GetComponent<VictimScript>();
+                victimScript.RequestPolicePresence += PolicePresenceRequested;
+                victimScript.Died += VictimDied;
+                _activeVictims.Add(victimScript);
             }
             else
             {
@@ -42,6 +46,18 @@ public class VictimManager : MonoBehaviour
         }
 
         AssignInitialStates();
+    }
+
+    private void VictimDied(GameObject victim, VictimScript script)
+    {
+        script.Died -= VictimDied;
+        script.RequestPolicePresence -= PolicePresenceRequested;
+        Destroy(victim);
+    }
+
+    private void PolicePresenceRequested(Transform location)
+    {
+        throw new NotImplementedException();
     }
 
     private void AssignInitialStates()

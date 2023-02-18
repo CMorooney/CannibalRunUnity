@@ -10,8 +10,14 @@ using Random = UnityEngine.Random;
 using static UnityEngine.AI.NavMesh;
 using UnityEngine.Windows;
 
+public delegate void RequestPolicePresence(Transform location);
+public delegate void Died(GameObject victim, VictimScript script);
+
 public class VictimScript : MonoBehaviour
 {
+    public event Died Died;
+    public event RequestPolicePresence RequestPolicePresence;
+
     private LineOfSight _lineOfSightScript;
 
     private NavMeshAgent _navMeshAgent;
@@ -182,5 +188,9 @@ public class VictimScript : MonoBehaviour
     public bool IsAtNavDestination() => Vector2.Distance(_navMeshAgent.destination, transform.position) <= 1;
 
     public void Calm() => _alertSource = null;
+
+    public GameObject NearbyPolicePole => _lineOfSightScript.NearbyPolicePole;
+
+    public void CallThePolice() => RequestPolicePresence?.Invoke();
 }
 
