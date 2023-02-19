@@ -162,6 +162,11 @@ public class VictimScript : MonoBehaviour
         {
             _health = Math.Clamp(_health - toRemove.MaxHealth, 0, 1);
             _bodyParts.Remove(toRemove);
+
+            if(_bodyParts.Count <= 0)
+            {
+                Died?.Invoke(gameObject, this);
+            }
         }
     }
 
@@ -191,6 +196,6 @@ public class VictimScript : MonoBehaviour
 
     public GameObject NearbyPolicePole => _lineOfSightScript.NearbyPolicePole;
 
-    public void CallThePolice() => RequestPolicePresence?.Invoke();
+    public void CallThePolice() => RequestPolicePresence?.Invoke(transform);
 }
 

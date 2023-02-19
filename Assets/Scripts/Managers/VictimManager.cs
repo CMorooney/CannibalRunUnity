@@ -1,14 +1,17 @@
 using System;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static UnityEngine.AI.NavMesh;
+using UnityEngine.AI;
 
 public class VictimManager : MonoBehaviour
 {
     public GameObject VictimPrefab;
     public GameObject PolicePrefab;
+    public GameObject[] PoliceSpawns;
 
     private const int _startingCount = 20;
 
@@ -57,7 +60,20 @@ public class VictimManager : MonoBehaviour
 
     private void PolicePresenceRequested(Transform location)
     {
-        throw new NotImplementedException();
+        Debug.Log("COP ALERT");
+        var nearestSpawn = PoliceSpawns.OrderBy(s =>
+                                                    Vector3.Distance(s.transform.position,
+                                                                     location.position))
+                                       .First();
+
+        var police = Instantiate(PolicePrefab,
+                              nearestSpawn.transform.position.WithZ(0),
+                              Quaternion.identity);
+
+        var policeNavMeshAgent = police.GetComponent<NavMeshAgent>();
+        policeNavMeshAgent.updateRotation = false;
+        policeNavMeshAgent.updateUpAxis = false;
+        policeNavMeshAgent.destination = location.position;
     }
 
     private void AssignInitialStates()

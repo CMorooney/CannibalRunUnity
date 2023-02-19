@@ -73,6 +73,7 @@ SpriteAtlas:
     - {fileID: 8745156617682794990, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
     - {fileID: 8937844282541564255, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
     - {fileID: 2313222430926007142, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
+    - {fileID: 2854261854138988252, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
     - {fileID: 1105254734158558415, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
     - {fileID: -8674865246477043969, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
     - {fileID: 5734673200551392788, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
@@ -127,6 +128,7 @@ SpriteAtlas:
   - {fileID: 635210606339791133, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
   - {fileID: -1353771474590992264, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
   - {fileID: 5734673200551392788, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
+  - {fileID: 2854261854138988252, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
   - {fileID: 6011293800614294571, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
   - {fileID: -4986868457239107825, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
   - {fileID: -8356203016294345787, guid: 9e3226afe4a634adf879c1faf3b86d46, type: 3}
@@ -177,6 +179,7 @@ SpriteAtlas:
   - roguelikeCity_transparent_alpha_51_323_16_16
   - roguelikeCity_transparent_alpha_442_391_16_16
   - roguelikeCity_transparent_alpha_153_374_16_16
+  - roguelikeCity_transparent_alpha_85_85_16_16
   - roguelikeCity_transparent_alpha_238_85_16_16
   - roguelikeCity_transparent_alpha_34_425_16_16
   - roguelikeCity_transparent_alpha_0_17_16_16
